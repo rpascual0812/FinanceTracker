@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Finance Expense Tracker</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- MENU -->
+    <string name="menu_spending">SPENDING</string>
+    <string name="menu_transactions">TRANSACTIONS</string>
+    <string name="menu_categories">CATEGORIES</string>
+    <string name="menu_accounts">ACCOUNTS</string>
+    <!-- END of MENU -->
+
+    <string name="page_title"></string>
+</resources>
