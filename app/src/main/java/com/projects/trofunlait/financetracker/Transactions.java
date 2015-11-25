@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,25 +13,17 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
-import android.util.Log;
-
-public class MainActivity extends AppCompatActivity {
-
+/**
+ * Created by kith on 11/23/15.
+ */
+public class Transactions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.transactions_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Not yet working Jhester ^_^", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -72,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(spendings);
         }
 
+
+
+
 //        TextView title = (TextView)findViewById(R.id.page_title);
 //        title.setText(item.toString());
 
@@ -80,4 +76,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

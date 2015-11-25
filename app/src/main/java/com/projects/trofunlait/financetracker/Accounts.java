@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,26 +14,15 @@ import android.content.Intent;
 import android.widget.Toast;
 
 /**
- * Created by wennie on 11/23/15.
+ * Created by kith on 11/23/15.
  */
-public class transactions extends AppCompatActivity {
+public class Accounts extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transactions_main);
+        setContentView(R.layout.accounts_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Intent i = getIntent();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -54,8 +44,27 @@ public class transactions extends AppCompatActivity {
             return true;
         }
 
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
+        //Log.e("n", item.toString());
+        Intent spendings = new Intent(getApplicationContext(), MainActivity.class);
+        Intent transactions = new Intent(getApplicationContext(), Transactions.class);
+        Intent categories = new Intent(getApplicationContext(), Categories.class);
+        Intent accounts = new Intent(getApplicationContext(), Accounts.class);
+
+        if(id == R.id.menu_transactions){
+            startActivity(transactions);
+        }
+        else if(id == R.id.menu_categories){
+            startActivity(categories);
+        }
+        else if(id == R.id.menu_accounts){
+            startActivity(accounts);
+        }
+        else {
+            startActivity(spendings);
+        }
+
+
+
 
 //        TextView title = (TextView)findViewById(R.id.page_title);
 //        title.setText(item.toString());
@@ -65,4 +74,5 @@ public class transactions extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
