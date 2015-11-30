@@ -45,7 +45,7 @@ public class Accounts extends AppCompatActivity {
         }
 
         //Log.e("n", item.toString());
-        Intent spendings = new Intent(getApplicationContext(), MainActivity.class);
+        Intent spendings = new Intent(getApplicationContext(), Spending.class);
         Intent transactions = new Intent(getApplicationContext(), Transactions.class);
         Intent categories = new Intent(getApplicationContext(), Categories.class);
         Intent accounts = new Intent(getApplicationContext(), Accounts.class);
