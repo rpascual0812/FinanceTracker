@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -42,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         contentview("spending");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-//                Snackbar.make(view, "Not yet working Jhester ^_^", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                contentview("transaction_new");
+////                Snackbar.make(view, "Not yet working Jhester ^_^", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//            }
+//        });
 
 //        income = (TextView) findViewById(R.id.income_textview);
 //        expense = (TextView) findViewById(R.id.expense_textview);
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             contentview("spending");
+
+
             //startActivity(spendings);
         }
 
@@ -119,23 +122,26 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<HashMap<String, String>> transactionlist = dbTools.getAllTransactions();
             dbTools.getAllTransactions();
 
-            if(transactionlist.size() != 0){
-                final ListView listView = listActivity.getListView();
-//                listView.setOnItemClickListener(new OnItemClickListener(){
-//                    @Override
-//                    public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3){
-//                        id = (TextView) view.findViewById(R.id.id);
-//                    }
-//                });
-
-//                ListAdapter adapter = new SimpleAdapter(
-//                        MainActivity.this, transactionlist, R.new_transaction.transactions_main,
-//                        new String[] {"id", "transactiontype", "amount", "category" },
-//                        new int[] {R.id.id, R.id.transactiontype, R.id.amount, R.id.category}
-//                        );
-
-                //listActivity.setListAdapter(adapter);
-            }
+//            if(transactionlist.size() != 0){
+//                final ListView listView = listActivity.getListView();
+////                listView.setOnItemClickListener(new OnItemClickListener(){
+////                    @Override
+////                    public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3){
+////                        id = (TextView) view.findViewById(R.id.id);
+////                    }
+////                });
+//
+////                ListAdapter adapter = new SimpleAdapter(
+////                        MainActivity.this, transactionlist, R.new_transaction.transactions_main,
+////                        new String[] {"id", "transactiontype", "amount", "category" },
+////                        new int[] {R.id.id, R.id.transactiontype, R.id.amount, R.id.category}
+////                        );
+//
+//                //listActivity.setListAdapter(adapter);
+//            }
+        }
+        else if(page == "transaction_new"){
+            setContentView(R.layout.new_transaction);
         }
         else if(page == "categories"){
             setContentView(R.layout.categories_main);
@@ -153,10 +159,35 @@ public class MainActivity extends AppCompatActivity {
             expense = (TextView) findViewById(R.id.expense_textview);
             balance = (TextView) findViewById(R.id.balance_textview);
 
-            income.setText(income_db.get(income));
-            expense.setText(expense_db.get(expense));
+            income.setText(income_db.get("income"));
+            expense.setText(expense_db.get("expense"));
 
             balance.setText("0");
+
+            final Button button_income = (Button) findViewById(R.id.btn_income);
+            button_income.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
+                    startActivity(new_transaction);
+                }
+            });
+
+            final Button button_expense = (Button) findViewById(R.id.btn_expense);
+            button_expense.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    setContentView(R.layout.new_transaction);
+                }
+            });
+
+            TextView tv =(TextView)findViewById(R.id.dbcheck);
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent dbmanager = new Intent(getApplication(),AndroidDatabaseManager.class);
+                    startActivity(dbmanager);
+                }
+            });
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

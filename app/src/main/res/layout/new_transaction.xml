@@ -25,18 +25,43 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Amount"
         android:id="@+id/textView5"
-        android:layout_alignBottom="@+id/editText"
-        android:layout_toStartOf="@+id/editText"
-        android:layout_marginEnd="28dp" />
+        android:layout_alignBottom="@+id/txt_amount"
+        android:layout_alignStart="@+id/textView4" />
 
     <EditText
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/txt_amount"
         android:layout_marginTop="39dp"
         android:inputType="numberDecimal"
         android:layout_below="@+id/textView4"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="28dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Category"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/txt_amount"
+        android:layout_alignStart="@+id/textView5"
+        android:layout_marginTop="43dp" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:id="@+id/btn_savetransaction"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_categories"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_alignStart="@+id/txt_amount" />
 
 </RelativeLayout>
