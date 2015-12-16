@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
             button_income.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent new_transaction = new Intent(getApplication(), new_transaction.class);
+                    new_transaction.putExtra("type", "income");
                     startActivity(new_transaction);
                 }
             });
@@ -175,7 +176,9 @@ public class MainActivity extends AppCompatActivity {
             final Button button_expense = (Button) findViewById(R.id.btn_expense);
             button_expense.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    setContentView(R.layout.new_transaction);
+                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
+                    new_transaction.putExtra("type", "expense");
+                    startActivity(new_transaction);
                 }
             });
 
