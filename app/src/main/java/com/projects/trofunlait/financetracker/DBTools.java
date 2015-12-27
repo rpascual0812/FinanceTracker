@@ -13,11 +13,18 @@ import android.util.Log;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by kith on 11/30/15.
  */
 public class DBTools extends SQLiteOpenHelper {
+    String transactions_tbl = "transactions";
+    String _transactiontype = "transactiontype";
+    String _amount = "amount";
+    String _category = "category";
+
+    String categories_tbl = "categories";
 
     public DBTools(Context applicationContext){
         super(applicationContext, "trofunlait_financetracker.db", null, 1);
@@ -26,16 +33,25 @@ public class DBTools extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table transactions (id integer primary key autoincrement, transactiontype text, amount float, category integer)";
+        String query = "create table "+transactions_tbl+" (id integer primary key autoincrement, transactiontype text, amount float, category integer)";
         db.execSQL(query);
 
-        String sample = "insert into transactions (transactiontype, amount, category) values ('income', 100, 'Food')";
+        String sample = "insert into "+transactions_tbl+" (transactiontype, amount, category) values ('income', 100, 'Food')";
         db.execSQL(sample);
+
+        String categories = "create table "+categories_tbl+" (id integer primary key autoincrement, transactiontype text, category text)";
+        db.execSQL(categories);
+
+        String sample_income_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('income', 'Salary');";
+        db.execSQL(sample_income_categories);
+
+        String sample_expense_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('expense', 'Food');";
+        db.execSQL(sample_expense_categories);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String query = "drop table if exists transactions";
+        String query = "drop table if exists "+transactions_tbl;
         db.execSQL(query);
         onCreate(db);
     }
@@ -45,12 +61,12 @@ public class DBTools extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put("transactiontype", queryValues.get("transactiontype"));
-        values.put("amount", queryValues.get("amount"));
-        values.put("category", queryValues.get("category"));
+        values.put(_transactiontype, queryValues.get(_transactiontype));
+        values.put(_amount, queryValues.get(_amount));
+        values.put(_category, queryValues.get(_category));
 
         Log.e("n", values.toString());
-        db.insert("transactions", null, values);
+        db.insert(transactions_tbl, null, values);
 
         db.close();
     }
@@ -75,10 +91,71 @@ public class DBTools extends SQLiteOpenHelper {
     public void deleteTransactions(String id){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "delete from transactions where id ='" + id + "'";
+        String query = "delete from "+transactions_tbl+" where id ='" + id + "'";
 
         db.execSQL(query);
     }
+
+    public List<String> getCategories(String transactiontype){
+        List<String> categories = new ArrayList<String>();
+
+        // Select All Query
+        String query = "SELECT id, category FROM categories where transactiontype = '" + transactiontype + "';";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return categories;
+    }
+
+    public Cursor getAllCursorTransactions() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  transactiontype,amount,category FROM " + transactions_tbl;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor != null) {
+            cursor.moveToNext();
+        }
+        return cursor;
+    }
+
+//    public List<Transactions> getAllGridTransactions() {
+//        List<Transactions> transList = new ArrayList<Transactions>();
+//        // Select All Query
+//        String selectQuery = "SELECT  * FROM " + transactions_tbl;
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//        // looping through all rows and adding to list
+//        if (cursor.moveToFirst()) {
+//            do {
+//                Transactions transactions = new Transactions();
+//                transactions.setID(Integer.parseInt(cursor.getString(0)));
+//
+//                String amount = cursor.getString(3) +"\n"+ cursor.getString(2);
+//                MainActivity.ArrayofTransactions.add(amount);
+//                // Adding contact to list
+//                transList.add(transactions);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        // return contact list
+//        return transList;
+//    }
 
     public ArrayList<HashMap<String, String>> getAllTransactions(){
         ArrayList<HashMap<String, String>> transactionsList = new ArrayList<HashMap<String, String>>();

@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="  "
+            android:text="DB"
             android:id="@+id/dbcheck"
             android:layout_below="@+id/btn_income"
             android:layout_centerHorizontal="true"

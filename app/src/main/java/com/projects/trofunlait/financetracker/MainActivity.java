@@ -1,6 +1,7 @@
 package com.projects.trofunlait.financetracker;
 
 import android.app.ListActivity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     TextView balance;
 
     EditText test_text;
+
+    private SimpleCursorAdapter dataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
             //startActivity(transactions);
         }
         else if(id == R.id.menu_categories){
-            contentview("categories");
-            //startActivity(categories);
-        }
-        else if(id == R.id.menu_accounts){
+            //contentview("categories");
+            Intent intent = new Intent(getApplication(), Categories.class);
+            intent.putExtra("type", "income");
+            startActivity(intent);
+        } else if(id == R.id.menu_accounts){
             contentview("accounts");
             //startActivity(accounts);
         }
@@ -119,8 +126,28 @@ public class MainActivity extends AppCompatActivity {
         if(page == "transactions"){
             setContentView(R.layout.transactions_main);
 
-            ArrayList<HashMap<String, String>> transactionlist = dbTools.getAllTransactions();
-            dbTools.getAllTransactions();
+            Cursor cursor = (Cursor) dbTools.getAllCursorTransactions();
+
+            String[] columns = new String[] {
+                    dbTools._transactiontype,
+                    dbTools._amount,
+                    dbTools._category
+            };
+
+//            ArrayList<HashMap<String, String>> transactionlist = dbTools.getAllTransactions();
+
+            //dbTools.getAllGridTransactions();
+
+            dataAdapter = new SimpleCursorAdapter(
+                    this, R.layout.transactions_list,
+                    cursor,
+                    columns,
+                    null,
+                    0);
+
+            ListView listView = (ListView) findViewById(R.id.listView1);
+
+            listView.setAdapter(dataAdapter);
 
 //            if(transactionlist.size() != 0){
 //                final ListView listView = listActivity.getListView();
@@ -144,7 +171,25 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.new_transaction);
         }
         else if(page == "categories"){
-            setContentView(R.layout.categories_main);
+            setContentView(R.layout.new_transaction);
+//            setContentView(R.layout.categories_main);
+//
+//            final String[] PENS = new String[]{
+//                    "MONT Blanc",
+//                    "Gucci",
+//                    "Parker",
+//                    "Sailor",
+//                    "Porsche Design",
+//                    "Rotring",
+//                    "Sheaffer",
+//                    "Waterman"
+//            };
+//
+//            ArrayAdapter adapter = new ArrayAdapter(this,
+//                    android.R.layout.categories, PENS);
+//
+//            setListAdapter(new ArrayAdapter<String>(this,
+//                    android.R.layout.simple_list_item_1, PENS));
         }
         else if(page == "accounts"){
             setContentView(R.layout.accounts_main);

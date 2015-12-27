@@ -35,17 +35,22 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="TRANSACTIONS"
             android:id="@+id/page_title"
+            android:textStyle="bold"
             android:layout_alignParentTop="true"
+            android:textColor="@color/colorRed"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="40dp" />
+            android:layout_marginStart="34dp" />
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/transactions_listView"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/page_title"
-            android:layout_below="@+id/page_title" />
+        <GridView android:layout_height="wrap_content" android:id="@+id/gridView"
+            android:layout_width="match_parent" android:numColumns="3"></GridView>
+
+        <!--<ListView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/transactions_listView"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignStart="@+id/page_title"-->
+            <!--android:layout_below="@+id/page_title" />-->
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

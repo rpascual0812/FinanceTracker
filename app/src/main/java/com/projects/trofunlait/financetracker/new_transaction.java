@@ -15,9 +15,10 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
- * Created by wennie on 12/5/15.
+ * Created by kith on 12/5/15.
  */
 public class new_transaction extends Activity {
     DBTools dbTools = new DBTools(this);
@@ -32,27 +33,15 @@ public class new_transaction extends Activity {
 
         final String trans_type = getIntent().getExtras().getString("type");
 
-        array_spinner=new String[11];
-        array_spinner[0]="Eating Out";
-        array_spinner[1]="Shopping";
-        array_spinner[2]="Clothes";
-        array_spinner[3]="Entertainment";
-        array_spinner[4]="Fuel";
-        array_spinner[5]="General";
-        array_spinner[6]="Gifts";
-        array_spinner[7]="Holidays";
-        array_spinner[8]="Salary";
-        array_spinner[9]="Allowance";
-        array_spinner[10]="Part-time";
+        List<String> array_spinner = dbTools.getCategories(trans_type);
 
-        amount = (EditText) findViewById(R.id.txt_amount);
-        category = (Spinner) findViewById(R.id.spinner_categories);
         ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, array_spinner);
 
+        category = (Spinner) findViewById(R.id.spinner_categories);
         category.setAdapter(adapter);
 
-
+        amount = (EditText) findViewById(R.id.txt_amount);
 
         final Button button_income = (Button) findViewById(R.id.btn_savetransaction);
         button_income.setOnClickListener(new View.OnClickListener() {
@@ -74,12 +63,7 @@ public class new_transaction extends Activity {
 
                 Intent main = new Intent(getApplication(), MainActivity.class);
                 startActivity(main);
-                //category.setSelection(0);
-
-
             }
         });
     }
-
-
 }
