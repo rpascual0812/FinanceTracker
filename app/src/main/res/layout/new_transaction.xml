@@ -62,6 +62,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner_categories"
         android:layout_alignBottom="@+id/textView6"
-        android:layout_alignStart="@+id/txt_amount" />
+        android:layout_alignStart="@+id/txt_amount"
+        android:spinnerMode="dialog" />
 
 </RelativeLayout>
