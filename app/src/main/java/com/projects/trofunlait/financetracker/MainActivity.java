@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -210,7 +211,12 @@ public class MainActivity extends AppCompatActivity {
             income.setText(income_db.get("income"));
             expense.setText(expense_db.get("expense"));
 
-            balance.setText("0");
+            int inc = Integer.parseInt(income_db.get("income"));
+            int exp = Integer.parseInt(expense_db.get("expense"));
+            float bal = inc - exp;
+
+            String str_bal = Float.toString(bal);
+            balance.setText(str_bal);
 
             final Button button_income = (Button) findViewById(R.id.btn_income);
             button_income.setOnClickListener(new View.OnClickListener() {
