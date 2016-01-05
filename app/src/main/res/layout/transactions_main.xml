@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context=".Transactions">
+    tools:context=".Accounts">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,12 +23,10 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/transactions_main" tools:context=".Transactions"
+        tools:showIn="@layout/accounts_main"
         android:background="@drawable/background_notebook"
         >
 
-        <!--<TextView android:text="Hello World!" android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,16 +39,13 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="34dp" />
 
-        <GridView android:layout_height="wrap_content" android:id="@+id/gridView"
-            android:layout_width="match_parent" android:numColumns="3"></GridView>
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="370dp"
+            android:id="@+id/listview_transactions"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/page_title" />
 
-        <!--<ListView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/transactions_listView"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignStart="@+id/page_title"-->
-            <!--android:layout_below="@+id/page_title" />-->
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

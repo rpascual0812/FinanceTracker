@@ -3,16 +3,12 @@ package com.projects.trofunlait.financetracker;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +32,7 @@ public class new_transaction extends Activity {
         List<String> array_spinner = dbTools.getCategories(trans_type);
 
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, array_spinner);
+                android.R.layout.select_dialog_item, array_spinner);
 
         category = (Spinner) findViewById(R.id.spinner_categories);
         category.setAdapter(adapter);

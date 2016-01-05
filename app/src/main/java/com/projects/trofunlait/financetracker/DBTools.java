@@ -26,6 +26,8 @@ public class DBTools extends SQLiteOpenHelper {
 
     String categories_tbl = "categories";
 
+    private ArrayList<String> categories_results = new ArrayList<String>();
+
     public DBTools(Context applicationContext){
         super(applicationContext, "trofunlait_financetracker.db", null, 1);
 
@@ -42,11 +44,8 @@ public class DBTools extends SQLiteOpenHelper {
         String categories = "create table "+categories_tbl+" (id integer primary key autoincrement, transactiontype text, category text)";
         db.execSQL(categories);
 
-        String sample_income_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('income', 'Salary');";
-        db.execSQL(sample_income_categories);
-
-        String sample_expense_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('expense', 'Food');";
-        db.execSQL(sample_expense_categories);
+        String sample_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('income', 'Salary'), ('income', 'Part-time Job'), ('expense', 'Food'), ('expense', 'Transportation');";
+        db.execSQL(sample_categories);
     }
 
     @Override
@@ -120,6 +119,54 @@ public class DBTools extends SQLiteOpenHelper {
         return categories;
     }
 
+    public List<String> getTransactions(){
+        List<String> categories = new ArrayList<String>();
+
+        // Select All Query
+        String query = "SELECT id, category ||  ' - ' || amount as category FROM transactions;";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return categories;
+    }
+
+    public List<String> getAllCategories(){
+        List<String> categories = new ArrayList<String>();
+
+        // Select All Query
+        String query = "SELECT id, category FROM categories;";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return categories;
+    }
+
     public Cursor getAllCursorTransactions() {
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT  transactiontype,amount,category FROM " + transactions_tbl;
@@ -131,6 +178,7 @@ public class DBTools extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
 
 //    public List<Transactions> getAllGridTransactions() {
 //        List<Transactions> transList = new ArrayList<Transactions>();
@@ -209,7 +257,7 @@ public class DBTools extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "Select sum(amount) from transactions where transactiontype = '"+ transactiontype +"'";
+        String query = "Select coalesce(sum(amount),0) from transactions where transactiontype = '"+ transactiontype +"'";
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -234,7 +282,6 @@ public class DBTools extends SQLiteOpenHelper {
         MatrixCursor Cursor2= new MatrixCursor(columns);
         alc.add(null);
         alc.add(null);
-
 
         try{
             String maxQuery = Query ;

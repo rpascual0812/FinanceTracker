@@ -19,11 +19,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     DBTools dbTools = new DBTools(this);
@@ -90,14 +92,55 @@ public class MainActivity extends AppCompatActivity {
 //        Intent accounts = new Intent(getApplicationContext(), Accounts.class);
 
         if(id == R.id.menu_transactions){
-            contentview("transactions");
-            //startActivity(transactions);
+            //contentview("transactions");
+            setContentView(R.layout.transactions_main);
+
+            final ListView category_listview;
+
+            List<String> array_list = dbTools.getTransactions();
+
+            ArrayAdapter adapter2 = new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, array_list);
+
+            category_listview = (ListView) findViewById(R.id.listview_transactions);
+            category_listview.setAdapter(adapter2);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
         }
         else if(id == R.id.menu_categories){
-            //contentview("categories");
-            Intent intent = new Intent(getApplication(), Categories.class);
-            intent.putExtra("type", "income");
-            startActivity(intent);
+            setContentView(R.layout.categories_main);
+
+            final Spinner category;
+
+            set_list("income");
+
+            String[] array_spinner = new String[] {
+                    "Income",
+                    "Expense"
+            };
+
+            ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.select_dialog_item, array_spinner);
+
+            category = (Spinner) findViewById(R.id.spinner_categories);
+            category.setAdapter(adapter);
+
+            final Spinner spinner_type = (Spinner) findViewById(R.id.spinner_categories);
+            spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
+                    String text = spinner_type.getSelectedItem().toString();
+                    set_list(text.toLowerCase());
+                }
+
+                public void onNothingSelected(AdapterView<?> arg0) {
+                }
+
+            });
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
         } else if(id == R.id.menu_accounts){
             contentview("accounts");
             //startActivity(accounts);
@@ -118,6 +161,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void set_list(String trans_type){
+        final ListView category_listview;
+
+        List<String> array_listview = dbTools.getCategories(trans_type);
+
+        ArrayAdapter adapter2 = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, array_listview);
+
+        category_listview = (ListView) findViewById(R.id.listview_categories);
+        category_listview.setAdapter(adapter2);
+    }
+
     public String get_amount(){
         return amount;
     }
@@ -126,70 +181,18 @@ public class MainActivity extends AppCompatActivity {
         if(page == "transactions"){
             setContentView(R.layout.transactions_main);
 
-            Cursor cursor = (Cursor) dbTools.getAllCursorTransactions();
+            final ListView category_listview;
 
-            String[] columns = new String[] {
-                    dbTools._transactiontype,
-                    dbTools._amount,
-                    dbTools._category
-            };
+            List<String> array_listview = dbTools.getTransactions();
 
-//            ArrayList<HashMap<String, String>> transactionlist = dbTools.getAllTransactions();
+            ArrayAdapter adapter2 = new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_2, array_listview);
 
-            //dbTools.getAllGridTransactions();
-
-            dataAdapter = new SimpleCursorAdapter(
-                    this, R.layout.transactions_list,
-                    cursor,
-                    columns,
-                    null,
-                    0);
-
-            ListView listView = (ListView) findViewById(R.id.listView1);
-
-            listView.setAdapter(dataAdapter);
-
-//            if(transactionlist.size() != 0){
-//                final ListView listView = listActivity.getListView();
-////                listView.setOnItemClickListener(new OnItemClickListener(){
-////                    @Override
-////                    public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3){
-////                        id = (TextView) view.findViewById(R.id.id);
-////                    }
-////                });
-//
-////                ListAdapter adapter = new SimpleAdapter(
-////                        MainActivity.this, transactionlist, R.new_transaction.transactions_main,
-////                        new String[] {"id", "transactiontype", "amount", "category" },
-////                        new int[] {R.id.id, R.id.transactiontype, R.id.amount, R.id.category}
-////                        );
-//
-//                //listActivity.setListAdapter(adapter);
-//            }
+            category_listview = (ListView) findViewById(R.id.listview_transactions);
+            category_listview.setAdapter(adapter2);
         }
         else if(page == "transaction_new"){
             setContentView(R.layout.new_transaction);
-        }
-        else if(page == "categories"){
-            setContentView(R.layout.new_transaction);
-//            setContentView(R.layout.categories_main);
-//
-//            final String[] PENS = new String[]{
-//                    "MONT Blanc",
-//                    "Gucci",
-//                    "Parker",
-//                    "Sailor",
-//                    "Porsche Design",
-//                    "Rotring",
-//                    "Sheaffer",
-//                    "Waterman"
-//            };
-//
-//            ArrayAdapter adapter = new ArrayAdapter(this,
-//                    android.R.layout.categories, PENS);
-//
-//            setListAdapter(new ArrayAdapter<String>(this,
-//                    android.R.layout.simple_list_item_1, PENS));
         }
         else if(page == "accounts"){
             setContentView(R.layout.accounts_main);
