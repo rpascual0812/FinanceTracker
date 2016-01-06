@@ -23,6 +23,7 @@ public class DBTools extends SQLiteOpenHelper {
     String _transactiontype = "transactiontype";
     String _amount = "amount";
     String _category = "category";
+    String _datecreated = "datecreated";
 
     String categories_tbl = "categories";
 
@@ -35,16 +36,16 @@ public class DBTools extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table "+transactions_tbl+" (id integer primary key autoincrement, transactiontype text, amount float, category integer)";
+        String query = "create table "+transactions_tbl+" (id integer primary key autoincrement, transactiontype text, amount float, category integer, datecreated date)";
         db.execSQL(query);
 
-        String sample = "insert into "+transactions_tbl+" (transactiontype, amount, category) values ('income', 100, 'Food')";
+        String sample = "insert into "+transactions_tbl+" (transactiontype, amount, category, datecreated) values ('Income', 100, 'Food', date('now'))";
         db.execSQL(sample);
 
         String categories = "create table "+categories_tbl+" (id integer primary key autoincrement, transactiontype text, category text)";
         db.execSQL(categories);
 
-        String sample_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('income', 'Salary'), ('income', 'Part-time Job'), ('expense', 'Food'), ('expense', 'Transportation');";
+        String sample_categories = "insert into "+categories_tbl+" (transactiontype, category) values ('Income', 'Salary'), ('Income', 'Part-time Job'), ('Expense', 'Food'), ('Expense', 'Transportation');";
         db.execSQL(sample_categories);
     }
 
@@ -63,9 +64,22 @@ public class DBTools extends SQLiteOpenHelper {
         values.put(_transactiontype, queryValues.get(_transactiontype));
         values.put(_amount, queryValues.get(_amount));
         values.put(_category, queryValues.get(_category));
+        values.put(_datecreated, queryValues.get(_datecreated));
 
-        Log.e("n", values.toString());
         db.insert(transactions_tbl, null, values);
+
+        db.close();
+    }
+
+    public void insertCategory(HashMap<String, String> queryValues){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(_transactiontype, queryValues.get(_transactiontype));
+        values.put(_category, queryValues.get(_category));
+
+        db.insert(categories_tbl, null, values);
 
         db.close();
     }
@@ -123,7 +137,7 @@ public class DBTools extends SQLiteOpenHelper {
         List<String> categories = new ArrayList<String>();
 
         // Select All Query
-        String query = "SELECT id, category ||  ' - ' || amount as category FROM transactions;";
+        String query = "SELECT id, category ||  ' - ' || amount as category FROM transactions order by datecreated desc;";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -263,10 +277,12 @@ public class DBTools extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             //Log.e(">>>>>>>>>>>", cursor.getString(0));
-            if(transactiontype == "income")
-                map.put("income", cursor.getString(0));
+            if(transactiontype == "Income")
+                map.put("Income", cursor.getString(0));
+            else if(transactiontype == "Savings")
+                map.put("Savings", cursor.getString(0));
             else
-                map.put("expense", cursor.getString(0));
+                map.put("Expense", cursor.getString(0));
         }
 
         return map;

@@ -1,33 +1,21 @@
 package com.projects.trofunlait.financetracker;
 
 import android.app.ListActivity;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private String category;
 
     TextView income;
+    TextView savings;
     TextView expense;
     TextView balance;
 
@@ -51,23 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         contentview("spending");
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                contentview("transaction_new");
-////                Snackbar.make(view, "Not yet working Jhester ^_^", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
-//            }
-//        });
-
-//        income = (TextView) findViewById(R.id.income_textview);
-//        expense = (TextView) findViewById(R.id.expense_textview);
-//        balance = (TextView) findViewById(R.id.balance_textview);
     }
 
     @Override
@@ -89,14 +63,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        //Log.e("n", item.toString());
-//        Intent spendings = new Intent(getApplicationContext(), Spending.class);
-//        Intent transactions = new Intent(getApplicationContext(), Transactions.class);
-//        Intent categories = new Intent(getApplicationContext(), Categories.class);
-//        Intent accounts = new Intent(getApplicationContext(), Accounts.class);
-
         if(id == R.id.menu_transactions){
-            //contentview("transactions");
             setContentView(R.layout.transactions_main);
 
             final ListView category_listview;
@@ -117,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
             final Spinner category;
 
-            set_list("income");
+            set_list("Income");
 
             String[] array_spinner = new String[] {
                     "Income",
-                    "Expense"
+                    "Expense",
+                    "Savings"
             };
 
             ArrayAdapter adapter = new ArrayAdapter(this,
@@ -134,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
                     String text = spinner_type.getSelectedItem().toString();
-                    set_list(text.toLowerCase());
+                    set_list(text);
                 }
 
                 public void onNothingSelected(AdapterView<?> arg0) {
@@ -212,19 +180,23 @@ public class MainActivity extends AppCompatActivity {
         else {
             setContentView(R.layout.spending_main);
 
-            HashMap<String, String> income_db = dbTools.getSpending("income");
-            HashMap<String, String> expense_db = dbTools.getSpending("expense");
+            HashMap<String, String> income_db = dbTools.getSpending("Income");
+            HashMap<String, String> expense_db = dbTools.getSpending("Expense");
+            HashMap<String, String> savings_db = dbTools.getSpending("Savings");
 
             income = (TextView) findViewById(R.id.income_textview);
+            savings = (TextView) findViewById(R.id.savings_textview);
             expense = (TextView) findViewById(R.id.expense_textview);
             balance = (TextView) findViewById(R.id.balance_textview);
 
-            income.setText(income_db.get("income"));
-            expense.setText(expense_db.get("expense"));
+            income.setText(income_db.get("Income"));
+            savings.setText(savings_db.get("Savings"));
+            expense.setText(expense_db.get("Expense"));
 
-            int inc = Integer.parseInt(income_db.get("income"));
-            int exp = Integer.parseInt(expense_db.get("expense"));
-            float bal = inc - exp;
+            int inc = Integer.parseInt(income_db.get("Income"));
+            int sav = Integer.parseInt(savings_db.get("Savings"));
+            int exp = Integer.parseInt(expense_db.get("Expense"));
+            float bal = (inc + sav) - exp;
 
             String str_bal = Float.toString(bal);
             balance.setText(str_bal);
@@ -233,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             button_income.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent new_transaction = new Intent(getApplication(), new_transaction.class);
-                    new_transaction.putExtra("type", "income");
+                    new_transaction.putExtra("type", "Income");
                     startActivity(new_transaction);
                 }
             });
@@ -242,7 +214,16 @@ public class MainActivity extends AppCompatActivity {
             button_expense.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent new_transaction = new Intent(getApplication(), new_transaction.class);
-                    new_transaction.putExtra("type", "expense");
+                    new_transaction.putExtra("type", "Expense");
+                    startActivity(new_transaction);
+                }
+            });
+
+            final Button button_savings = (Button) findViewById(R.id.btn_savings);
+            button_savings.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
+                    new_transaction.putExtra("type", "Savings");
                     startActivity(new_transaction);
                 }
             });

@@ -31,7 +31,8 @@ public class Categories extends Activity {
 
         String[] array_spinner = new String[] {
             "Income",
-            "Expense"
+            "Expense",
+            "Savings"
         };
 
         ArrayAdapter adapter = new ArrayAdapter(this,
