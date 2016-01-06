@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -137,6 +140,14 @@ public class MainActivity extends AppCompatActivity {
                 public void onNothingSelected(AdapterView<?> arg0) {
                 }
 
+            });
+
+            final Button button_addcategory = (Button) findViewById(R.id.btn_addcategory);
+            button_addcategory.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, new_categories.class));
+
+                }
             });
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -43,7 +43,7 @@
             android:layout_height="390dp"
             android:id="@+id/listview_categories"
             android:layout_alignStart="@+id/page_title"
-            android:layout_alignParentBottom="true" />
+            android:layout_below="@+id/spinner_categories" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -52,7 +52,16 @@
             android:spinnerMode="dialog"
             android:layout_below="@+id/page_title"
             android:layout_alignStart="@+id/page_title"
-            android:layout_marginTop="28dp" />
+            android:layout_marginTop="28dp"
+            android:layout_alignEnd="@+id/page_title" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:id="@+id/btn_addcategory"
+            android:layout_alignTop="@+id/spinner_categories"
+            android:layout_toEndOf="@+id/spinner_categories" />
 
 
     </RelativeLayout>
