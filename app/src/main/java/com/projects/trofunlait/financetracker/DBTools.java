@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class DBTools extends SQLiteOpenHelper {
     String transactions_tbl = "transactions";
+    String _id = "id";
     String _transactiontype = "transactiontype";
     String _amount = "amount";
     String _category = "category";
@@ -69,6 +70,24 @@ public class DBTools extends SQLiteOpenHelper {
         db.insert(transactions_tbl, null, values);
 
         db.close();
+    }
+
+    public int updateTransaction(HashMap<String, String> queryValues){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        //values.put(_id, queryValues.get(_id));
+        values.put(_amount, queryValues.get(_amount));
+        values.put(_category, queryValues.get(_category));
+        values.put(_datecreated, queryValues.get(_datecreated));
+
+        return db.update(
+                "transactions",
+                values,
+                "id" + " = ?",
+                new String[] {queryValues.get("id")}
+        );
     }
 
     public void insertCategory(HashMap<String, String> queryValues){
@@ -137,7 +156,7 @@ public class DBTools extends SQLiteOpenHelper {
         List<String> categories = new ArrayList<String>();
 
         // Select All Query
-        String query = "SELECT id, category ||  ' - ' || amount as category FROM transactions order by datecreated desc;";
+        String query = "SELECT id || '~' || category ||  ' - ' || amount as category FROM transactions order by datecreated desc;";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -145,7 +164,7 @@ public class DBTools extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                categories.add(cursor.getString(1));
+                categories.add(cursor.getString(0));
             } while (cursor.moveToNext());
         }
 
@@ -155,6 +174,30 @@ public class DBTools extends SQLiteOpenHelper {
 
         // returning lables
         return categories;
+    }
+
+    public List<String> getEditTransaction(String id){
+        List<String> transactions = new ArrayList<String>();
+
+        // Select All Query
+        String query = "SELECT id || '~' || category ||  '~' || amount || '~' || datecreated || '~' || transactiontype FROM transactions where id = "+ id +" order by datecreated desc;";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                transactions.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return transactions;
     }
 
     public List<String> getAllCategories(){

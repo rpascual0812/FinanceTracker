@@ -21,7 +21,6 @@ public class Categories extends Activity {
         final EditText amount;
         final Spinner category;
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_main);
 
@@ -45,14 +44,14 @@ public class Categories extends Activity {
         spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
                 String text = spinner_type.getSelectedItem().toString();
-                set_list(text.toLowerCase());
+                set_list(text);
             }
             public void onNothingSelected(AdapterView<?> arg0) { }
 
         });
     }
 
-    private void set_list(String trans_type){
+    public void set_list(String trans_type){
         final ListView category_listview;
 
         List<String> array_listview = dbTools.getCategories(trans_type);

@@ -16,6 +16,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText test_text;
 
+    //Transactions
+    List<String> array_list;
+
     private SimpleCursorAdapter dataAdapter;
 
     @Override
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -68,13 +75,23 @@ public class MainActivity extends AppCompatActivity {
 
             final ListView category_listview;
 
-            List<String> array_list = dbTools.getTransactions();
+            array_list = dbTools.getTransactions();
+
+            List<String> new_transactions = new ArrayList<String>();
+
+            for(int i=0;i<array_list.size();i++){
+                String[] a = array_list.get(i).split("~");
+
+                new_transactions.add(a[1].toString());
+            }
 
             ArrayAdapter adapter2 = new ArrayAdapter(this,
-                    android.R.layout.simple_list_item_1, array_list);
+                    android.R.layout.simple_list_item_1, new_transactions);
 
             category_listview = (ListView) findViewById(R.id.listview_transactions);
             category_listview.setAdapter(adapter2);
+
+            category_listview.setOnItemClickListener(onTransactionClickListener);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -141,6 +158,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private AdapterView.OnItemClickListener onTransactionClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+            // TODO Auto-generated method stub
+            //do your job here, position is the item position in ListView
+
+            String[] a = array_list.get((int)id).split("~");
+
+//            String item = ((TextView)view).getText().toString() + " id = " + Long.toString(id) + " " + a[0];
+//
+//            Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+            Intent edit_transaction = new Intent(getApplication(), edit_transaction.class);
+            edit_transaction.putExtra("id", a[0].toString());
+            startActivity(edit_transaction);
+        }
+    };
+
     private void set_list(String trans_type){
         final ListView category_listview;
 
@@ -158,20 +193,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void contentview(String page){
-        if(page == "transactions"){
-            setContentView(R.layout.transactions_main);
-
-            final ListView category_listview;
-
-            List<String> array_listview = dbTools.getTransactions();
-
-            ArrayAdapter adapter2 = new ArrayAdapter(this,
-                    android.R.layout.simple_list_item_2, array_listview);
-
-            category_listview = (ListView) findViewById(R.id.listview_transactions);
-            category_listview.setAdapter(adapter2);
-        }
-        else if(page == "transaction_new"){
+        if(page == "transaction_new"){
             setContentView(R.layout.new_transaction);
         }
         else if(page == "accounts"){
