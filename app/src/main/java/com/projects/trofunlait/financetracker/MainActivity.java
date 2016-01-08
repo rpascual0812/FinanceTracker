@@ -51,12 +51,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.menu_transactions){
             setContentView(R.layout.transactions_main);
 
-            final ListView category_listview;
+            ListView category_listview;
 
             array_list = dbTools.getTransactions();
 

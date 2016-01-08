@@ -73,7 +73,9 @@ public class edit_transaction extends Activity {
         final Button button_cancel = (Button) findViewById(R.id.btn_cancel);
         button_cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                edit_transaction.this.finish();
+                setResult(RESULT_OK, null);
+                finish();
+                //edit_transaction.this.finish();
             }
         });
 
@@ -107,6 +109,8 @@ public class edit_transaction extends Activity {
 
                 toast = Toast.makeText(getApplicationContext(), "Transaction saved.", Toast.LENGTH_SHORT);
                 toast.show();
+
+
             }
         });
     }
