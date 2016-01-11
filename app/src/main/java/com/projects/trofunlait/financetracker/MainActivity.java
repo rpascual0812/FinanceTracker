@@ -1,6 +1,7 @@
 package com.projects.trofunlait.financetracker;
 
 import android.app.ListActivity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-        } else if(id == R.id.menu_accounts){
-            contentview("accounts");
+        } else if(id == R.id.menu_reports){
+            contentview("reports");
             //startActivity(accounts);
         }
         else {
@@ -202,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
         if(page == "transaction_new"){
             setContentView(R.layout.new_transaction);
         }
-        else if(page == "accounts"){
-            setContentView(R.layout.accounts_main);
+        else if(page == "reports"){
+            setContentView(R.layout.reports_main);
         }
         else {
             setContentView(R.layout.spending_main);
@@ -229,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
             String str_bal = Float.toString(bal);
             balance.setText(str_bal);
 
-            final Button button_income = (Button) findViewById(R.id.btn_income);
+            //final Button button_income = (Button) findViewById(R.id.btn_income);
+            final TextView button_income = (TextView) findViewById(R.id.btn_income);
             button_income.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent new_transaction = new Intent(getApplication(), new_transaction.class);
@@ -238,7 +242,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            final Button button_expense = (Button) findViewById(R.id.btn_expense);
+            //final Button button_expense = (Button) findViewById(R.id.btn_expense);
+            final TextView button_expense = (TextView) findViewById(R.id.btn_expense);
             button_expense.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent new_transaction = new Intent(getApplication(), new_transaction.class);
@@ -247,14 +252,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            final Button button_savings = (Button) findViewById(R.id.btn_savings);
-            button_savings.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
-                    new_transaction.putExtra("type", "Savings");
-                    startActivity(new_transaction);
-                }
-            });
+//            final Button button_savings = (Button) findViewById(R.id.btn_savings);
+//            button_savings.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
+//                    new_transaction.putExtra("type", "Savings");
+//                    startActivity(new_transaction);
+//                }
+//            });
 
             TextView tv =(TextView)findViewById(R.id.dbcheck);
 

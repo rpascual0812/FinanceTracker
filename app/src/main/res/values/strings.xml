@@ -7,7 +7,10 @@
     <string name="menu_transactions">TRANSACTIONS</string>
     <string name="menu_categories">CATEGORIES</string>
     <string name="menu_accounts">ACCOUNTS</string>
+    <string name="menu_reports">REPORTS</string>
     <!-- END of MENU -->
 
+    <string name="txt_btn_income"><u>ADD INCOME</u></string>
+    <string name="txt_btn_expense"><u>ADD EXPENSE</u></string>
     <string name="page_title"></string>
 </resources>
