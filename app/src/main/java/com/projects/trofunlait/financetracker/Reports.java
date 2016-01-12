@@ -1,66 +1,58 @@
 package com.projects.trofunlait.financetracker;
 
 import android.app.ListActivity;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.content.Intent;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class Reports extends AppCompatActivity {
     DBTools dbTools = new DBTools(this);
-
-    ListActivity listActivity = new ListActivity();
-
-    private int id;
-    private String amount;
-    private String transactiontype;
-    private String category;
 
     TextView income;
     TextView savings;
     TextView expense;
     TextView balance;
 
-    EditText test_text;
-
     //Transactions
     List<String> array_list;
 
-    private SimpleCursorAdapter dataAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contentview("spending");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
+        //main layout
+        setContentView(R.layout.reports_main);
 
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
+        HashMap<String, String> income_db = dbTools.getSpending("Income");
+        HashMap<String, String> expense_db = dbTools.getSpending("Expense");
+        HashMap<String, String> savings_db = dbTools.getSpending("Savings");
+
+        PieChart pieChart = (PieChart) findViewById(R.id.pieChart);
+        float[] datas = new float[3];
+        datas[0] = Integer.parseInt(income_db.get("Income"));
+        datas[1] = Integer.parseInt(savings_db.get("Savings"));
+        datas[2] = Integer.parseInt(expense_db.get("Expense"));
+        pieChart.setData(datas);
+
+        String[] labels = new String[3];
+        labels[0] = "INCOME";
+        labels[1] = "SAVINGS";
+        labels[2] = "EXPENSES";
+        pieChart.setLabels(labels);
     }
 
     @Override
@@ -105,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
             category_listview.setOnItemClickListener(onTransactionClickListener);
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
         }
         else if(id == R.id.menu_categories){
             setContentView(R.layout.categories_main);
@@ -142,29 +132,15 @@ public class MainActivity extends AppCompatActivity {
             final Button button_addcategory = (Button) findViewById(R.id.btn_addcategory);
             button_addcategory.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, new_categories.class));
+                    startActivity(new Intent(Reports.this, new_categories.class));
 
                 }
             });
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-
-        } else if(id == R.id.menu_reports){
-            startActivity(new Intent(MainActivity.this, Reports.class));
         }
         else {
             contentview("spending");
-
-
-            //startActivity(spendings);
         }
-
-//        TextView title = (TextView)findViewById(R.id.page_title);
-//        title.setText(item.toString());
-
-//        Toast toast = Toast.makeText(this, item.toString(), Toast.LENGTH_LONG);
-//        toast.show();
 
         return super.onOptionsItemSelected(item);
     }
@@ -178,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
             String[] a = array_list.get((int)id).split("~");
 
-//            String item = ((TextView)view).getText().toString() + " id = " + Long.toString(id) + " " + a[0];
-//
-//            Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
             Intent edit_transaction = new Intent(getApplication(), edit_transaction.class);
             edit_transaction.putExtra("id", a[0].toString());
             startActivity(edit_transaction);
@@ -197,10 +170,6 @@ public class MainActivity extends AppCompatActivity {
 
         category_listview = (ListView) findViewById(R.id.listview_categories);
         category_listview.setAdapter(adapter2);
-    }
-
-    public String get_amount(){
-        return amount;
     }
 
     public void contentview(String page){
@@ -254,15 +223,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-//            final Button button_savings = (Button) findViewById(R.id.btn_savings);
-//            button_savings.setOnClickListener(new View.OnClickListener() {
-//                public void onClick(View v) {
-//                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
-//                    new_transaction.putExtra("type", "Savings");
-//                    startActivity(new_transaction);
-//                }
-//            });
-
             TextView tv =(TextView)findViewById(R.id.dbcheck);
 
             tv.setOnClickListener(new View.OnClickListener() {
@@ -272,8 +232,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
 }

@@ -2,9 +2,12 @@ package com.projects.trofunlait.financetracker;
 
 import android.content.Intent;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,6 +83,7 @@ public class new_transaction extends Activity {
 
         amount = (EditText) findViewById(R.id.txt_amount);
         datePicker = (DatePicker) findViewById(R.id.datePicker);
+
 
 //        TextView tx = (TextView) findViewById(android.R.id.text1);
 //        String font1 = "fonts/handwriting.ttf";

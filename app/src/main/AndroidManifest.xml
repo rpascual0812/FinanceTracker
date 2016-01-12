@@ -38,6 +38,10 @@
             android:name=".edit_transaction"
             >
         </activity>
+        <activity
+            android:name=".Reports"
+            >
+        </activity>
     </application>
 
 
