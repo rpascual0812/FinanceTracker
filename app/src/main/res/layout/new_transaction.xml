@@ -18,7 +18,7 @@
         android:id="@+id/textView4"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="35sp"
+        android:textSize="30sp"
         />
 
     <com.projects.trofunlait.financetracker.CustomTextView
@@ -29,17 +29,19 @@
         android:id="@+id/textView5"
         android:layout_alignBottom="@+id/txt_amount"
         android:layout_alignStart="@+id/textView4"
-        android:textSize="35sp"/>
+        android:textSize="30sp"/>
 
-    <EditText
-        android:layout_width="150dp"
+    <com.projects.trofunlait.financetracker.CustomEditText
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:id="@+id/txt_amount"
         android:layout_marginTop="39dp"
         android:inputType="numberDecimal"
         android:layout_below="@+id/textView4"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="28dp" />
+        android:layout_marginEnd="28dp"
+        android:textSize="35sp"
+        />
 
     <com.projects.trofunlait.financetracker.CustomTextView
         android:layout_width="wrap_content"
@@ -50,7 +52,7 @@
         android:layout_below="@+id/txt_amount"
         android:layout_alignStart="@+id/textView5"
         android:layout_marginTop="43dp"
-        android:textSize="35sp"/>
+        android:textSize="30sp"/>
 
 
     <Button
@@ -63,7 +65,7 @@
         android:layout_alignEnd="@+id/datePicker" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_categories"
         android:layout_alignBottom="@+id/textView6"

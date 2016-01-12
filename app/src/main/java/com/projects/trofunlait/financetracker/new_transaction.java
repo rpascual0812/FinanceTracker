@@ -2,15 +2,20 @@ package com.projects.trofunlait.financetracker;
 
 import android.content.Intent;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +24,8 @@ import java.util.List;
  */
 public class new_transaction extends Activity {
     DBTools dbTools = new DBTools(this);
-    private String array_spinner[];
+    final String font1 = "fonts/handwriting.ttf";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         final EditText amount;
@@ -29,18 +35,54 @@ public class new_transaction extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_transaction);
 
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        width = (int) (width * 0.9);
+        height = (int) (height * 0.8);
+
+        getWindow().setLayout(width, height);
+
         final String trans_type = getIntent().getExtras().getString("type");
 
         List<String> array_spinner = dbTools.getCategories(trans_type);
 
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.select_dialog_item, array_spinner);
+//        ArrayAdapter adapter = new ArrayAdapter(this,
+//                android.R.layout.select_dialog_item, array_spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_item, array_spinner) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextSize(35);
+                return v;
+            }
+
+            public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
+                View v =super.getDropDownView(position, convertView, parent);
+                Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextSize(35);
+                return v;
+            }
+        };
+
 
         category = (Spinner) findViewById(R.id.spinner_categories);
         category.setAdapter(adapter);
 
         amount = (EditText) findViewById(R.id.txt_amount);
         datePicker = (DatePicker) findViewById(R.id.datePicker);
+
+//        TextView tx = (TextView) findViewById(android.R.id.text1);
+//        String font1 = "fonts/handwriting.ttf";
+//        Typeface tf = Typeface.createFromAsset(getAssets(), font1);
 
         final Button button = (Button) findViewById(R.id.btn_savetransaction);
         button.setOnClickListener(new View.OnClickListener() {
