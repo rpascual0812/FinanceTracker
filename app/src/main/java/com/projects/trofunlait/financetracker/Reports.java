@@ -222,15 +222,6 @@ public class Reports extends AppCompatActivity {
                     startActivity(new_transaction);
                 }
             });
-
-            TextView tv =(TextView)findViewById(R.id.dbcheck);
-
-            tv.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent dbmanager = new Intent(getApplication(),AndroidDatabaseManager.class);
-                    startActivity(dbmanager);
-                }
-            });
         }
     }
 

@@ -5,6 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -254,23 +257,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-//            final Button button_savings = (Button) findViewById(R.id.btn_savings);
-//            button_savings.setOnClickListener(new View.OnClickListener() {
+            TextView tv =(TextView)findViewById(R.id.page_title);
+            tv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent dbmanager = new Intent(getApplication(),AndroidDatabaseManager.class);
+                    startActivity(dbmanager);
+                    return false;
+                }
+            });
+//
+//            tv.setOnClickListener(new View.OnClickListener() {
 //                public void onClick(View v) {
-//                    Intent new_transaction = new Intent(getApplication(), new_transaction.class);
-//                    new_transaction.putExtra("type", "Savings");
-//                    startActivity(new_transaction);
+//                    Intent dbmanager = new Intent(getApplication(),AndroidDatabaseManager.class);
+//                    startActivity(dbmanager);
 //                }
 //            });
 
-            TextView tv =(TextView)findViewById(R.id.dbcheck);
-
-            tv.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent dbmanager = new Intent(getApplication(),AndroidDatabaseManager.class);
-                    startActivity(dbmanager);
-                }
-            });
         }
 
 

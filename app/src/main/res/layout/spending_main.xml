@@ -171,22 +171,15 @@
             android:layout_below="@+id/btn_income"
             android:layout_centerHorizontal="true" />
 
-        <!--<Button-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Add Savings"-->
-            <!--android:id="@+id/btn_savings"-->
-            <!--android:layout_below="@+id/btn_expense"-->
-            <!--android:layout_centerHorizontal="true" />-->
 
-        <com.projects.trofunlait.financetracker.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="DB"
-            android:id="@+id/dbcheck"
-            android:layout_above="@+id/textView"
-            android:layout_alignEnd="@+id/btn_income" />
+        <!--<com.projects.trofunlait.financetracker.CustomTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="DB"-->
+            <!--android:id="@+id/dbcheck"-->
+            <!--android:layout_above="@+id/textView"-->
+            <!--android:layout_alignEnd="@+id/btn_income" />-->
 
         <com.projects.trofunlait.financetracker.CustomTextView
             android:layout_width="wrap_content"
