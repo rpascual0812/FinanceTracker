@@ -2,13 +2,16 @@ package com.projects.trofunlait.financetracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -18,6 +21,8 @@ import java.util.HashMap;
  */
 public class new_categories extends Activity {
     DBTools dbTools = new DBTools(this);
+    final String font1 = "fonts/handwriting.ttf";
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -42,21 +47,38 @@ public class new_categories extends Activity {
                 "Savings"
         };
 
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.select_dialog_item, array_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_item, array_spinner) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextSize(35);
+                return v;
+            }
+
+            public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
+                View v =super.getDropDownView(position, convertView, parent);
+                Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextSize(35);
+                return v;
+            }
+        };
 
         trans_type = (Spinner) findViewById(R.id.spType);
 
         trans_type.setAdapter(adapter);
 
-        final Button button = (Button) findViewById(R.id.btnCancel);
+        final CustomTextView button = (CustomTextView) findViewById(R.id.btnCancel);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 new_categories.this.finish();
             }
         });
 
-        final Button save = (Button) findViewById(R.id.btnSave);
+        final CustomTextView save = (CustomTextView) findViewById(R.id.btnSave);
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 HashMap<String, String> queryValuesMap =  new  HashMap<String, String>();

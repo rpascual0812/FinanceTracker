@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     DBTools dbTools = new DBTools(this);
+    final String font1 = "fonts/handwriting.ttf";
 
     ListActivity listActivity = new ListActivity();
 
@@ -125,7 +127,24 @@ public class MainActivity extends AppCompatActivity {
             };
 
             ArrayAdapter adapter = new ArrayAdapter(this,
-                    android.R.layout.select_dialog_item, array_spinner);
+                    android.R.layout.select_dialog_item, array_spinner) {
+
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getView(position, convertView, parent);
+                    Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                    ((TextView) v).setTypeface(externalFont);
+                    ((TextView) v).setTextSize(35);
+                    return v;
+                }
+
+                public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
+                    View v =super.getDropDownView(position, convertView, parent);
+                    Typeface externalFont=Typeface.createFromAsset(getAssets(), font1);
+                    ((TextView) v).setTypeface(externalFont);
+                    ((TextView) v).setTextSize(35);
+                    return v;
+                }
+            };
 
             category = (Spinner) findViewById(R.id.spinner_categories);
             category.setAdapter(adapter);

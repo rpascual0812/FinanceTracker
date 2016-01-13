@@ -89,7 +89,7 @@ public class new_transaction extends Activity {
 //        String font1 = "fonts/handwriting.ttf";
 //        Typeface tf = Typeface.createFromAsset(getAssets(), font1);
 
-        final Button button = (Button) findViewById(R.id.btn_savetransaction);
+        final CustomTextView button = (CustomTextView) findViewById(R.id.btn_savetransaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
@@ -121,7 +121,7 @@ public class new_transaction extends Activity {
             }
         });
 
-        final Button button_cancel = (Button) findViewById(R.id.btn_cancel);
+        final CustomTextView button_cancel = (CustomTextView) findViewById(R.id.btn_cancel);
         button_cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 new_transaction.this.finish();
